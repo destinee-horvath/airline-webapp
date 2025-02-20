@@ -1,0 +1,24 @@
+{% include 'top.html' %}
+
+<div class="content">
+    <div class="container my-4">
+        <h2 class="title"> Remove Aircraft </h2>
+
+        <form class="needs-validation" method="POST" action="{{ url_for('remove_aircraft_route') }}" novalidate>
+
+            <div class="form-group">
+                <label for="aircraft_id">Aircraft ID:</label>
+                <input type="text" class="form-control" id="aircraft_id" name="aircraft_id" 
+                       placeholder="Enter aircraft ID to remove" required 
+                       value="{{ aircraft_id if aircraft_id else '' }}">
+                <div class="invalid-feedback">Please enter an aircraft ID.</div>
+            </div>
+
+            <button class="btn btn-danger" type="submit">Remove Aircraft</button>
+
+        </form>
+
+    </div>
+</div>
+
+{% include 'end.html' %}

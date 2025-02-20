@@ -1,0 +1,69 @@
+{% include 'top.html' %}
+
+<div id="content" class="container  my-4">
+    <h1 class="page-title">Details of Users (consolidated)</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+               {% if session['isadmin'] == True %}
+                <th>Delete</th>
+                <th>Userid</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Userroleid</th>
+                <th>Password</th>
+                <th>Rolename</th>
+                <th>Isadmin</th>
+                <th>Privilegeflags</th>
+                <th>Update</th>
+               {% else %}
+                <th>Userid</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Userroleid</th>
+                <th>Password</th>
+                <th>Rolename</th>
+                <th>Isadmin</th>
+                <th>Privilegeflags</th>
+               {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in users %}
+            <tr class="align-items-center">
+                {% if session['isadmin'] == True %}
+                    <td> 
+                        {% if item['isadmin'] == True %}
+                            <button disabled class="btn btn-danger" onclick="alert('Even an Admin should not delete an admin')">Delete</button>
+                        {% else %}
+                            <a href="{{ url_for('delete_user', userid=item.userid) }}" class="btn btn-danger">Delete</a>
+                        {% endif %}
+                    </td>
+                    <form name="{{item['userid']}}_form" class="Update" method="POST" action="{{url_for('update_user')}}">
+                        <input type="hidden" id="userid" name="userid" value="{{item['userid']}}" />
+                        <td class="align-middle">{{item['userid']}}</td>
+                        <td><input type="text" class="form-control" id="firstname" name="firstname" value="{{item['firstname']}}" placeholder="{{item['firstname']}}"></td>
+                        <td><input type="text" class="form-control" id="lastname" name="lastname" value="{{item['lastname']}}" placeholder="{{item['lastname']}}"></td>
+                        <td><input type="number" class="form-control" id="userroleid" name="userroleid" value="{{item['userroleid']}}" placeholder="{{item['userroleid']}}"></td>
+                        <td><input type="password" class="form-control" id="password" name="password" value="{{item['password']}}" placeholder="{{item['password']}}"></td>
+                        <td class="align-middle">{{item['rolename']}}</td>
+                        <td class="align-middle">{{item['isadmin']}}</td>
+                        <td class="align-middle">{{item['privilegeflags']}}</td>
+                        <td><button class="btn btn-primary" type="submit">Update</button></td>
+                    </form>
+                {% else %}
+                    <td class="align-middle">{{item['userid']}}</td>
+                    <td class="align-middle">{{item['firstname']}}</td>
+                    <td class="align-middle">{{item['lastname']}}</td>
+                    <td class="align-middle">{{item['userroleid']}}</td>
+                    <td class="align-middle">Hidden</td>
+                    <td class="align-middle">{{item['rolename']}}</td>
+                    <td class="align-middle">Hidden</td>
+                    <td class="align-middle">Hidden</td>
+                {% endif %} 
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% include 'end.html' %}

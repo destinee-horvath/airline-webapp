@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <!-- this goes to the 'static' folder and grabs our CSS -->
+  <!-- [Brief Intro:] CSS is how we make the websites look nicer -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+  <script type="application/javascript">
+
+    function getsearchtarget() {
+
+      // Get the select list and store in a variable
+      var e = document.getElementById("searchtarget");
+
+      // Get the selected value of the select list
+      var formaction = e.options[e.selectedIndex].value;
+
+      // Update the form action
+      document.searchform.action = formaction;
+
+    }
+  </script>
+  <title>{{ page.title }}</title>
+</head>
+
+<body>
+  <!-- Generating the menu and what happens when the user is logged in VS logged out -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Travel</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        
+        <!-- Dropdown for managing/viewing users -->
+        {% if session.logged_in %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="usersDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            View/Manage Users
+          </a>
+          <div class="dropdown-menu" aria-labelledby="usersDropdown">
+            <a class="dropdown-item" href="{{ url_for('list_users') }}">List Users</a>
+            <a class="dropdown-item" href="{{ url_for('search_users_byname') }}">User Search</a>
+            {% if session['isadmin'] == True %}
+            <a class="dropdown-item" href="{{ url_for('add_user') }}">Add User</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url_for('list_user_stats') }}">User Stats</a>
+            <a class="dropdown-item" href="{{ url_for('list_consolidated_users') }}">User Details (Advanced)</a>
+            {% endif %}
+          </div>
+        </li>
+
+        <!-- Dropdown for managing/viewing aircraft -->
+        {% if session.logged_in %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="aircraftDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            View Aircrafts
+          </a>
+          <div class="dropdown-menu" aria-labelledby="aircraftDropdown">
+            <a class="dropdown-item" href="{{ url_for('list_aircrafts_route') }}">List Aircrafts</a>
+            <a class="dropdown-item" href="{{ url_for('list_manufacturers_route') }}">Count Manufacturers</a>
+            <a class="dropdown-item" href="{{ url_for('count_aircraft_route') }}">Count Aircrafts</a>
+
+            {% if session['isadmin'] == True %}
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{{ url_for('add_aircraft_route') }}">Add Aircraft</a>
+            {% endif %}
+          </div>
+        </li>
+        {% endif %}
+
+        <!-- Logout -->
+        <li class="nav-item">
+          <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <!--
+            This is for our flashed messages
+            Whenever we use flash('message in here')
+            it will come out inside this list
+        -->
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <ul class="flashes">
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+  {% endwith %}

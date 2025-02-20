@@ -1,0 +1,31 @@
+{% include 'top.html' %}
+
+<div class="container my-4">
+    <h2 class="page-title">Aircraft Count by Manufacturer</h2>
+
+    <table class="table table-bordered">
+        <thead class="thead-light">
+            <tr>
+                <th>Manufacturer</th>
+                <th>Number of Aircraft</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for manufacturer, count in counts %}
+            <tr>
+                <td>{{ manufacturer }}</td>
+                <td>{{ count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- <div class="mt-4">
+        <a class="btn btn-primary" href="/add_aircraft">Add Aircraft</a>
+        <a class="btn btn-secondary" href="/modify_aircraft">Modify Aircraft</a>
+        <a class="btn btn-danger" href="/remove_aircraft">Remove Aircraft</a>
+        <a class="btn btn-info" href="/count_aircraft">Count Aircraft by Manufacturer</a>
+    </div> -->
+</div>
+
+{% include 'end.html' %}

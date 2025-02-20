@@ -1,0 +1,52 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container my-4">
+
+        <h2 class="title"> Add Aircraft </h2>
+
+        <form class="needs-validation" method="POST" action="{{ url_for('add_aircraft_route') }}" novalidate>
+
+            <div class="form-group">
+                <label for="aircraft_id">Aircraft ID:</label>
+                <input type="text" class="form-control" id="aircraft_id" name="aircraft_id" placeholder="Enter aircraft ID here" required>
+                <div class="invalid-feedback">Please enter an aircraft ID.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="icao_code">ICAO Code:</label>
+                <input type="text" class="form-control" id="icao_code" name="icao_code" placeholder="Enter ICAO code here" required>
+                <div class="invalid-feedback">Please enter an ICAO code.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="aircraft_registration">Aircraft Registration:</label>
+                <input type="text" class="form-control" id="aircraft_registration" name="aircraft_registration" placeholder="Enter aircraft registration here" required>
+                <div class="invalid-feedback">Please enter an aircraft registration.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="manufacturer">Manufacturer:</label>
+                <input type="text" class="form-control" id="manufacturer" name="manufacturer" placeholder="Enter manufacturer here" required>
+                <div class="invalid-feedback">Please enter a manufacturer.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="model">Model:</label>
+                <input type="text" class="form-control" id="model" name="model" placeholder="Enter model here" required>
+                <div class="invalid-feedback">Please enter a model.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Capacity:</label>
+                <input type="text" class="form-control" id="capacity" name="capacity" placeholder="Enter aircraft capacity here" required>
+                <div class="invalid-feedback">Please enter the aircraft capacity.</div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Add Aircraft</button>
+
+        </form>
+
+    </div>
+</div>
+{% include 'end.html' %}
+

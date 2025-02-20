@@ -1,0 +1,55 @@
+{% if page.current_page %}
+    <p>Current Page: {{ page.current_page }}</p>
+{% endif %}
+
+{% include 'top.html' %}
+
+    <div class="container my-4">
+        <h2 class="title"> Modify Aircraft </h2>
+
+        <form class="needs-validation" method="POST" action="{{ url_for('modify_aircraft_route', aircraft_id=aircraft['AircraftID']) }}" novalidate>
+
+            <div class="form-group">
+                <label for="aircraft_id">Aircraft ID:</label>
+                <input type="text" class="form-control" id="aircraft_id" name="AircraftID" value="{{aircraft.get('AircraftID', '')}}" readonly required>
+                <div class="invalid-feedback">Please enter an aircraft ID.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="icao_code">New ICAO Code:</label>
+                <input type="text" class="form-control" id="icao_code" name="icao_code" value="{{aircraft.get('ICAOCode', '')}}" placeholder="Enter new ICAO code">
+                <div class="invalid-feedback">Please enter a valid ICAO code.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="aircraft_registration">New Aircraft Registration:</label>
+                <input type="text" class="form-control" id="aircraft_registration" name="aircraft_registration" value="{{aircraft.get('AircraftRegistration', '')}}" placeholder="Enter new aircraft registration">
+                <div class="invalid-feedback">Please enter a valid aircraft registration.</div>
+            </div>
+
+
+            <div class="form-group">
+                <label for="manufacturer">New Manufacturer:</label>
+                <input type="text" class="form-control" id="manufacturer" name="manufacturer" value="{{aircraft.get('Manufacturer', '')}}" placeholder="Enter new manufacturer">
+                <div class="invalid-feedback">Please enter a valid manufacturer.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="model">New Model:</label>
+                <input type="text" class="form-control" id="model" name="model" value="{{aircraft.get('Model', '')}}" placeholder="Enter new model">
+                <div class="invalid-feedback">Please enter a valid model.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="capacity">Capacity:</label>
+                <input type="number" class="form-control" id="capacity" name="capacity" value="{{aircraft.get('Capacity', '')}}" placeholder="Enter new capacity">
+                <div class="invalid-feedback">Please enter a valid capacity.</div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Modify Aircraft</button>
+
+        </form>
+
+    </div>
+
+{% include 'end.html' %}

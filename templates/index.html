@@ -1,0 +1,30 @@
+{% include 'top.html' %}
+<div id="content" class="container my-4">
+    <!--
+        Simple login form, the thing you want to pay attention to is
+        the method and the action, it shows you what's happening
+    -->
+
+    <small class="form-text text-muted">Note: The login is from the schema sample data</small>
+    <form class="needs-validation" method="POST" action="{{ url_for('login') }}">
+        <h1>Log in</h1>
+
+        <!-- <h4 class="text-center">Note: In the database try: <br/>
+        <code>SELECT * FROM {logintable};</code> <br/>
+        to get the userid and password</h4> -->
+
+        <div class="form-group">
+            <input type="text" class="form-control" name="userid" placeholder="Username" required>
+            <div class="invalid-feedback">Please enter a user ID.</div>
+        </div>
+
+        <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Password" required>
+            <div class="invalid-feedback">Please enter a password.</div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+{% include 'end.html' %}

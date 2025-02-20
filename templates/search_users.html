@@ -1,0 +1,23 @@
+{% include 'top.html' %}
+
+<div id="content" class="container my-4">
+
+<h1 class="page-title">User search</h1>
+
+<form name="searchform" class="" method="POST" action="{{url_for('search_users_byname')}}">
+    <div class="form-group">
+        <label>Enter search field (e.g. firstname, lastname, userid)</label>
+        <input class="form-control" type="text" name="searchfield" placeholder="Search Field" required>
+    </div>
+    
+    <div class="form-group">
+        <label>Enter search term</label>
+        <input class="form-control" type="text" name="searchterm" placeholder="Search Term" required>
+    </div>
+    <button class="btn btn-primary" type="submit">Search</button>
+</form>
+
+</div>
+
+{% include 'end.html' %}
+

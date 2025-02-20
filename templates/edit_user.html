@@ -1,0 +1,52 @@
+{% include 'top.html' %}
+<div class="content">
+    <div class="container my-4">
+
+        <h2 class="title"> Update User </h2>
+
+        <form class="needs-validation" method="POST" action="{{url_for('add_user')}}" novalidate>
+
+            <div class="form-group">
+                <label for="userid">User ID:</label>
+                <input type="text" class="form-control" id="userid" name="userid" value="{{user.get('userid', '')}}" value="Enter user ID here" required>
+                <div class="invalid-feedback">Please enter a user ID.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="firstname">First Name:</label>
+                <input type="text" class="form-control" id="firstname" name="firstname" value="{{user.get('firstname', '')}}" placeholder="Enter first name here" required>
+                <div class="invalid-feedback">Please enter a first name.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="lastname">Last Name:</label>
+                <input type="text" class="form-control" id="lastname" name="lastname" value="{{user.get('lastname', '')}}" placeholder="Enter last name here" required>
+                <div class="invalid-feedback">Please enter a last name.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="userroleid">User Role:</label>
+                <select class="form-control" id="userroleid" name="userroleid" required>
+                    {% for item in userroles %}
+                        {% if item['userroleid'] == user.get('userroleid') %}
+                        <option value="{{item['userroleid']}}" selected>{{item['rolename']}}</option>
+                        {% else %}
+                        <option value="{{item['userroleid']}}">{{item['rolename']}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+                <div class="invalid-feedback">Please select a user role.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password" value="{{user.get('password', '')}}" placeholder="Enter password here" required>
+                <div class="invalid-feedback">Please enter a password.</div>
+            </div>
+
+            <button class="btn btn-primary" type="submit">Confirm</button>
+        </form>
+
+    </div>
+</div>
+{% include 'end.html' %}

@@ -1,0 +1,158 @@
+{% include 'top.html' %}
+
+<div id="content" class="container my-4">
+    <h1 class="page-title">{{page.get('title', 'Aircraft List')}}</h1>
+
+    <!-- Search Bar -->
+    <div class="mb-3">
+        <form action="{{ url_for('search_aircraft_route') }}" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control" name="query" placeholder="Search aircraft..." aria-label="Search aircraft">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Table -->
+    <table class="table table-striped">
+        <!-- Ascending/Descending patterns -->
+        <thead>
+            <tr>
+                {% if session['isadmin'] == True %}
+                    <th>Delete</th>
+                {% endif %}
+                <th>
+                    Aircraft ID
+                    <a href="{{ url_for('list_aircrafts_route', sort='aircraftid', order='asc') }}" aria-label="Sort ascending">&#8593;</a>
+                    <a href="{{ url_for('list_aircrafts_route', sort='aircraftid', order='desc') }}" aria-label="Sort descending">&#8595;</a>
+                </th>
+                <th>
+                    ICAO Code
+                    <a href="{{ url_for('list_aircrafts_route', sort='icaocode', order='asc') }}" aria-label="Sort ascending">&#8593;</a>
+                    <a href="{{ url_for('list_aircrafts_route', sort='icaocode', order='desc') }}" aria-label="Sort descending">&#8595;</a>
+                </th>
+                <th>
+                    Registration
+                    <a href="{{ url_for('list_aircrafts_route', sort='aircraftregistration', order='asc') }}" aria-label="Sort ascending">&#8593;</a>
+                    <a href="{{ url_for('list_aircrafts_route', sort='aircraftregistration', order='desc') }}" aria-label="Sort descending">&#8595;</a>
+                </th>
+                <th>
+                    Manufacturer
+                    <a href="{{ url_for('list_aircrafts_route', sort='manufacturer', order='asc') }}" aria-label="Sort ascending">&#8593;</a>
+                    <a href="{{ url_for('list_aircrafts_route', sort='manufacturer', order='desc') }}" aria-label="Sort descending">&#8595;</a>
+                </th>
+                <th>
+                    Model
+                    <a href="{{ url_for('list_aircrafts_route', sort='model', order='asc') }}" aria-label="Sort ascending">&#8593;</a>
+                    <a href="{{ url_for('list_aircrafts_route', sort='model', order='desc') }}" aria-label="Sort descending">&#8595;</a>
+                </th>
+                <th>
+                    Capacity
+                    <a href="{{ url_for('list_aircrafts_route', sort='capacity', order='asc') }}" aria-label="Sort ascending">&#8593;</a>
+                    <a href="{{ url_for('list_aircrafts_route', sort='capacity', order='desc') }}" aria-label="Sort descending">&#8595;</a>
+                </th>
+                
+                {% if session['isadmin'] == True %}
+                    <th>Update</th>
+                {% endif %}
+            </tr>
+        </thead>
+
+        <!-- List Aircrafts -->
+        <tbody>
+        {% for aircraft in aircrafts %}
+            <tr class="align-items-center">
+                {% if session['isadmin'] == True %}
+                    <!-- Delete button for admin users only -->
+                    <td>
+                        <form action="{{ url_for('remove_aircraft_route') }}" method="POST" style="display:inline;">
+                            <input type="hidden" name="aircraft_id" value="{{ aircraft['aircraftid'] }}">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                    <td class="align-middle">{{ aircraft['aircraftid'] }}</td>
+                    <td class="align-middle">{{ aircraft['icaocode'] }}</td>
+                    <td class="align-middle">{{ aircraft['aircraftregistration'] }}</td>
+                    <td class="align-middle">{{ aircraft['manufacturer'] }}</td>
+                    <td class="align-middle">{{ aircraft['model'] }}</td>
+                    <td class="align-middle">{{ aircraft['capacity'] }}</td>
+
+                    <td><a class="btn btn-primary" href="{{ url_for('modify_aircraft_route', aircraft_id=aircraft['aircraftid']) }}">Edit</a></td>
+                {% else %}
+                    <td class="align-middle">{{ aircraft['aircraftid'] }}</td>
+                    <td class="align-middle">{{ aircraft['icaocode'] }}</td>
+                    <td class="align-middle">{{ aircraft['aircraftregistration'] }}</td>
+                    <td class="align-middle">{{ aircraft['manufacturer'] }}</td>
+                    <td class="align-middle">{{ aircraft['model'] }}</td>
+                    <td class="align-middle">{{ aircraft['capacity'] }}</td>
+
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <nav aria-label="Aircraft pagination">
+        <ul class="pagination">
+            <!-- Previous Button -->
+            {% if page.current_page > 1 %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('list_aircrafts_route', page=page.current_page - 1) }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+    
+            <!-- First Page -->
+            <li class="page-item {% if page.current_page == 1 %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('list_aircrafts_route', page=1) }}">1</a>
+            </li>
+    
+            <!-- Ellipsis after Page 1 -->
+            {% if page.current_page > 3 %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            {% endif %}
+    
+            <!-- Middle Pages  -->
+            {% set start_page = 2 if page.current_page - 1 < 2 else page.current_page - 1 %}
+            {% set end_page = page.total_pages if page.current_page + 1 >= page.total_pages else page.current_page + 1 %}
+            
+            {% for p in range(start_page, end_page + 1) %}
+                <li class="page-item {% if page.current_page == p %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('list_aircrafts_route', page=p) }}">{{ p }}</a>
+                </li>
+            {% endfor %}
+    
+            <!-- Ellipsis before Last Page -->
+            {% if page.current_page < page.total_pages - 2 %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+            {% endif %}
+    
+            <!-- Last Page -->
+            {% if page.total_pages > 1 %}
+                <li class="page-item {% if page.current_page == page.total_pages %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('list_aircrafts_route', page=page.total_pages) }}">{{ page.total_pages }}</a>
+                </li>
+            {% endif %}
+    
+            <!-- Next Button -->
+            {% if page.current_page < page.total_pages %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('list_aircrafts_route', page=page.current_page + 1) }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+    
+
+</div>
+
+
+
+{% include 'end.html' %}

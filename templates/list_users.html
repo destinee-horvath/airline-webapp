@@ -1,0 +1,55 @@
+{% include 'top.html' %}
+
+<div id="content" class="container my-4">
+    <h1 class="page-title">{{page.get('title', 'Users')}}</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+               {% if session['isadmin'] == True %}
+                <th>Delete</th>
+                <th>Userid</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Userroleid</th>
+                <th>Password</th>
+                <th>Update</th>
+               {% else %}
+                <th>Userid</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Userroleid</th>
+                <th>Password</th>
+               {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in users %}
+            <tr class="align-items-center">
+                {% if session['isadmin'] == True %}
+                    <td> 
+                        {% if item['isadmin'] == True %}
+                            <button onclick="alert('This would delete user {{item['userid']}} by calling url_for(\'delete_user({{item['userid']}})\')')" class="btn btn-danger">Delete</button>
+                        {% else %}
+                            <a href="{{ url_for('delete_user', userid=item.userid) }}" class="btn btn-danger">Delete</a>
+                        {% endif %}
+                    </td>
+                        <td class="align-middle">{{item['userid']}}</td>
+                        <td class="align-middle">{{item['firstname']}}</td>
+                        <td class="align-middle">{{item['lastname']}}</td>
+                        <td class="align-middle">{{item['userroleid']}}</td>
+                        <td><input type="password" class="form-control" id="password" name="password" value="{{item['password']}}" placeholder="{{item['password']}}"></td>
+                        <td><a class="btn btn-primary" href="{{ url_for('edit_user', userid=item.userid) }}">Edit</a></td>
+                {% else %}
+                    <td class="align-middle">{{item['userid']}}</td>
+                    <td class="align-middle">{{item['firstname']}}</td>
+                    <td class="align-middle">{{item['lastname']}}</td>
+                    <td class="align-middle">{{item['userroleid']}}</td>
+                    <td class="align-middle"><i>Admin only</i></td>
+                {% endif %} 
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% include 'end.html' %}

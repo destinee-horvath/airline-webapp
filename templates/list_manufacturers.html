@@ -1,0 +1,20 @@
+{% include 'top.html' %}
+
+<div class="container my-4">
+    <h2 class="page-title">Manufacturers</h2>
+
+    <ul class="list-group">
+        {% for manufacturer in manufacturers %}
+        <li class="list-group-item">{{ manufacturer }}</li>
+        {% endfor %}
+    </ul>
+
+    <!-- <div class="mt-4">
+        <a class="btn btn-primary" href="/add_aircraft">Add Aircraft</a>
+        <a class="btn btn-secondary" href="/modify_aircraft">Modify Aircraft</a>
+        <a class="btn btn-danger" href="/remove_aircraft">Remove Aircraft</a>
+        <a class="btn btn-info" href="/count_aircraft">Count Aircraft by Manufacturer</a>
+    </div> -->
+</div>
+
+{% include 'end.html' %}
